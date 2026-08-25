@@ -14,5 +14,17 @@ int main() {
 
 	std::cout << x << std::endl;
 
+
+
+	int* q = new int(7);
+	std::cout << *q << std::endl;
+
+	*q = 123;
+	std::cout << *q << std::endl;
+
+	delete q;
+	q = nullptr;
+
 	return 0;
 }
+
