@@ -14,17 +14,15 @@ public:
 
 int main() {
 
-    std::cout << "--- start ---\n";
-
-    Tick t;
-
-    std::cout << "---end ---\n";
+    std::cout << "--- before ---\n";
 
     {
-        Tick t2;
-    }
+        Tick* p = new Tick();
+		delete p;
 
-    std::cout << "--- after block ---\n";
+    }
+    std::cout << "--- after ---\n";
+
 
     return 0;
 }
