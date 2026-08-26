@@ -22,7 +22,7 @@ public:
         std::cout << "Tick copy\n";
     }
 
-    void print() {
+    void print() const {
         std::cout << time_ << " | " << price_ << " | " << qty_ << std::endl;
     }
 
@@ -37,6 +37,14 @@ public:
 
 };
 
+void show(const Tick& tk) {
+    tk.print();
+}
+
+void bump(Tick& tk) {
+    tk.setPrice(88888);
+}
+
 int main() {
     Tick t("09:01:23", 71500, 12);
     t.print();
@@ -50,17 +58,15 @@ int main() {
     t.print();
     t2.print();
 
+    std::cout << "--- call show ---" << std::endl;
+    show(t);
+    std::cout << "--- show done ---" << std::endl;
+
+    bump(t);
+    t.print();
+
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 
 
