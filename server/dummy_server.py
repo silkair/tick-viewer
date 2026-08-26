@@ -1,6 +1,7 @@
 import socket
 import time
 import random
+import struct
 
 # 체결 데이터 생성 함수
 def make_tick():
@@ -9,6 +10,13 @@ def make_tick():
     price = random.uniform(1094.70, 1104.70)
     qty = random.randint(1, 10)
     return f"{t}|{code}|{price:.2f}|{qty}"
+
+# 메시지 프레이밍 함수
+def frame(data_str):
+    payload = data_str.encode("ascii")  # 문자열을 바이트로 직렬화
+    length = len(payload)               # 페이로드의 정확한 바이트 길이 계산
+    header = struct.pack(">I", length)  # 길이를 4바이트 빅 엔디안(Big-Endian) 정수로 패킹
+    return header + payload             # 헤더(4바이트) + 페이로드(N바이트) 결합
 
 HOST = '127.0.0.1'
 PORT = 9000
@@ -27,7 +35,7 @@ while True:
     try:
         while True:
             tick_str = make_tick()
-            conn.sendall(tick_str.encode("ascii"))
+            conn.sendall(frame(tick_str))
             time.sleep(0.5)
             
     except (ConnectionAbortedError, ConnectionResetError) as e:
