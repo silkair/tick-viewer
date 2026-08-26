@@ -14,19 +14,41 @@ public:
         std::cout << "Tick delete\n";
     }
 
+    Tick(const Tick& other) {
+        time_ = other.time_;
+        price_ = other.price_;
+        qty_ = other.qty_;
+
+        std::cout << "Tick copy\n";
+    }
+
     void print() {
         std::cout << time_ << " | " << price_ << " | " << qty_ << std::endl;
     }
 
-private:
-    std::string time_;
-    int price_;
-    int qty_;
+    void setPrice(int p) {
+        price_ = p;
+    }
+
+    private:
+        std::string time_;
+        int price_;
+        int qty_;
+
 };
 
 int main() {
     Tick t("09:01:23", 71500, 12);
     t.print();
+
+    Tick t2 = t;
+    t2.print();
+
+    t2.setPrice(9999);
+
+    std::cout << "--- after change ---" << std::endl;
+    t.print();
+    t2.print();
 
     return 0;
 }
