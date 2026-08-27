@@ -1,6 +1,6 @@
 # 시세 전송 프로토콜
 
-더미 서버(`tick_server.py`)와 C++ 클라이언트 사이의 약속.
+더미 서버(`dummy_server.py`)와 C++ 클라이언트 사이의 약속.
 
 ## 1. 한 건의 생김새
 
@@ -58,9 +58,9 @@ Kafka나 HTTP를 쓸 때는 라이브러리가 "메시지 1개"를 잘라서 준
 파서가 맞는지 확인하려면 **일부러 최악의 입력을 만들어야 한다.** 그래서 서버에 모드를 넣었다.
 
 ```bash
-py tick_server.py           # 기본 — 0.5초마다 한 건
-py tick_server.py --burst   # 3건을 하나의 sendall 로 붙여서 전송
-py tick_server.py --split   # 한 건을 두 조각으로 쪼개서 0.2초 간격 전송
+py dummy_server.py           # 기본 — 0.5초마다 한 건
+py dummy_server.py --burst   # 3건을 하나의 sendall 로 붙여서 전송
+py dummy_server.py --split   # 한 건을 두 조각으로 쪼개서 0.2초 간격 전송
 ```
 
 - **`--burst`** → 4번(반복)을 빠뜨렸는지 잡아낸다. `if`로만 검사하면 3건 중 1건만 처리하고 나머지가 밀린다
