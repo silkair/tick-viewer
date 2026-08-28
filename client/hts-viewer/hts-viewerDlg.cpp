@@ -17,6 +17,8 @@
 #define new DEBUG_NEW
 #endif
 
+constexpr int MAX_ROWS = 500;
+
 LRESULT ChtsviewerDlg::OnTickReceived(WPARAM wParam, LPARAM lParam)
 {
 	std::string* pBody = (std::string*)wParam;
@@ -233,13 +235,14 @@ BOOL ChtsviewerDlg::OnInitDialog()
 
 void ChtsviewerDlg::AddTick(const CString& time, const CString& code, const CString& price, const CString& qty)
 {
-	// 새 행을 상단(0번 인덱스)에 추가하고 0번 열(시간) 채우기
 	int row = m_tickList.InsertItem(0, time);
-
-	// 나머지 1, 2, 3번 열 채우기
 	m_tickList.SetItemText(row, 1, code);
 	m_tickList.SetItemText(row, 2, price);
 	m_tickList.SetItemText(row, 3, qty);
+
+	if (m_tickList.GetItemCount() > MAX_ROWS) {
+		m_tickList.DeleteItem(m_tickList.GetItemCount() - 1);
+	}
 }
 
 void ChtsviewerDlg::OnSysCommand(UINT nID, LPARAM lParam)
