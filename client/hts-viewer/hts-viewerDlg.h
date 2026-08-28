@@ -32,5 +32,6 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
+	void AddTick(const CString& time, const CString& code, const CString& price, const CString& qty);
 	CListCtrl m_tickList;
 };

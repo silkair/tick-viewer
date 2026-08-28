@@ -106,7 +106,22 @@ BOOL ChtsviewerDlg::OnInitDialog()
 	m_tickList.InsertColumn(3, _T("수량"), LVCFMT_RIGHT, 60);
 	m_tickList.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
+	AddTick(_T("093015"), _T("A0169000"), _T("1099.70"), _T("3"));
+	AddTick(_T("093016"), _T("A0169000"), _T("1100.25"), _T("1"));
+	AddTick(_T("093016"), _T("A0169000"), _T("1099.95"), _T("10"));
+
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
+}
+
+void ChtsviewerDlg::AddTick(const CString& time, const CString& code, const CString& price, const CString& qty)
+{
+	// 새 행을 상단(0번 인덱스)에 추가하고 0번 열(시간) 채우기
+	int row = m_tickList.InsertItem(0, time);
+
+	// 나머지 1, 2, 3번 열 채우기
+	m_tickList.SetItemText(row, 1, code);
+	m_tickList.SetItemText(row, 2, price);
+	m_tickList.SetItemText(row, 3, qty);
 }
 
 void ChtsviewerDlg::OnSysCommand(UINT nID, LPARAM lParam)
