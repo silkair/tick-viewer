@@ -7,11 +7,128 @@
 #include "hts-viewer.h"
 #include "hts-viewerDlg.h"
 #include "afxdialogex.h"
+#include <string>
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+LRESULT ChtsviewerDlg::OnTickReceived(WPARAM wParam, LPARAM lParam)
+{
+	std::string* pBody = (std::string*)wParam;
+
+	// 안전한 UI 스레드 컨텍스트에서 UI 갱신 함수 호출
+	AddTickFromBytes(pBody->data(), (int)pBody->size());
+
+	// 워커 스레드가 할당한 메모리의 소유권을 넘겨받아 해제 (Memory Leak 방지)
+	delete pBody;
+
+	return 0;
+}
+
+void ChtsviewerDlg::ConnectAndReceive()
+{
+	WSADATA wsa;
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) return;
+
+	m_sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (m_sock == INVALID_SOCKET) { WSACleanup(); return; }
+
+	sockaddr_in serverAddr = {};
+	serverAddr.sin_family = AF_INET;
+	serverAddr.sin_port = htons(9000);
+	inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
+
+	if (connect(m_sock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
+		closesocket(m_sock);
+		m_sock = INVALID_SOCKET; // 초기화 습관화
+		WSACleanup();
+		return;
+	}
+
+	char accum[4096];
+	int accumLen = 0;
+
+	while (true) {
+		int n = recv(m_sock, accum + accumLen, sizeof(accum) - accumLen, 0);
+
+		if (n > 0) {
+			accumLen += n;
+
+			while (accumLen >= 4) {
+				unsigned int netLen;
+				memcpy(&netLen, accum, 4);
+				unsigned int bodyLen = ntohl(netLen);
+
+				if (bodyLen == 0 || bodyLen > sizeof(accum) - 4) {
+					if (m_sock != INVALID_SOCKET) {
+						closesocket(m_sock);
+						m_sock = INVALID_SOCKET;
+					}
+					break;
+				}
+
+				int used = 4 + bodyLen;
+				if (accumLen < used) {
+					break;
+				}
+				std::string* pBody = new std::string(accum + 4, bodyLen);
+
+				PostMessage(WM_TICK_RECEIVED, (WPARAM)pBody, 0);
+
+				memmove(accum, accum + used, accumLen - used);
+				accumLen -= used;
+			}
+		}
+		else {
+			break;
+		}
+	}
+
+	if (m_sock != INVALID_SOCKET) {
+		closesocket(m_sock);
+		m_sock = INVALID_SOCKET;
+	}
+	WSACleanup();
+}
+
+UINT ChtsviewerDlg::ReceiveThreadProc(LPVOID pParam)
+{
+	// 1. void* 로 넘어온 this 포인터를 원래 다이얼로그 타입으로 복원
+	ChtsviewerDlg* pDlg = (ChtsviewerDlg*)pParam;
+
+	// 2. 복원된 인스턴스를 통해 네트워크 수신 루프 실행
+	pDlg->ConnectAndReceive();
+
+	return 0;
+}
+
+void ChtsviewerDlg::AddTickFromBytes(const char* body, int len)
+{
+	// 1. 길이를 명시하여 널(Null) 종료 문자의 위협으로부터 안전하게 캡슐화
+	std::string s(body, len);
+
+	// 2. 파이프(|) 구분자 기반 파싱 (포인터 인덱싱 계산)
+	size_t p1 = s.find('|');
+	std::string time = s.substr(0, p1);
+
+	size_t p2 = s.find('|', p1 + 1);
+	std::string code = s.substr(p1 + 1, p2 - p1 - 1);
+
+	size_t p3 = s.find('|', p2 + 1);
+	std::string price = s.substr(p2 + 1, p3 - p2 - 1);
+
+	if (p1 == std::string::npos || p2 == std::string::npos || p3 == std::string::npos) return;
+
+	std::string qty = s.substr(p3 + 1);
+
+	// 3. ASCII 문자열 -> OS 기본 코드페이지 경유 -> MFC 유니코드(CString) 변환 후 렌더링
+	AddTick(CString(time.c_str()), CString(code.c_str()), CString(price.c_str()), CString(qty.c_str()));
+}
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -48,8 +165,6 @@ END_MESSAGE_MAP()
 
 // ChtsviewerDlg 대화 상자
 
-
-
 ChtsviewerDlg::ChtsviewerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_HTSVIEWER_DIALOG, pParent)
 {
@@ -60,12 +175,17 @@ void ChtsviewerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_TICK_LIST, m_tickList);
+	DDX_Control(pDX, IDC_TICK_LIST, m_tickList);
+	DDX_Control(pDX, IDC_TICK_LIST, m_tickList);
 }
 
 BEGIN_MESSAGE_MAP(ChtsviewerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_MESSAGE(WM_TICK_RECEIVED, &ChtsviewerDlg::OnTickReceived)
+//	ON_WM_DESTROYCLIPBOARD()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -106,9 +226,7 @@ BOOL ChtsviewerDlg::OnInitDialog()
 	m_tickList.InsertColumn(3, _T("수량"), LVCFMT_RIGHT, 60);
 	m_tickList.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
-	AddTick(_T("093015"), _T("A0169000"), _T("1099.70"), _T("3"));
-	AddTick(_T("093016"), _T("A0169000"), _T("1100.25"), _T("1"));
-	AddTick(_T("093016"), _T("A0169000"), _T("1099.95"), _T("10"));
+	AfxBeginThread(ReceiveThreadProc, this); // 백그라운드 워커 스레드로 분리 실행
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -172,4 +290,12 @@ HCURSOR ChtsviewerDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
-
+void ChtsviewerDlg::OnDestroy()
+{
+	// 워커 스레드의 recv()를 강제로 깨우기 위해 소켓을 닫아버림
+	if (m_sock != INVALID_SOCKET) {
+		closesocket(m_sock);
+		m_sock = INVALID_SOCKET;
+	}
+	CDialogEx::OnDestroy();
+}

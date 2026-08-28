@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#define WM_TICK_RECEIVED (WM_USER + 1)
 
 // ChtsviewerDlg 대화 상자
 class ChtsviewerDlg : public CDialogEx
@@ -30,8 +30,17 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg LRESULT OnTickReceived(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
+
 public:
 	void AddTick(const CString& time, const CString& code, const CString& price, const CString& qty);
+	void AddTickFromBytes(const char* body, int len);
+	void ConnectAndReceive();
 	CListCtrl m_tickList;
+
+	static UINT ReceiveThreadProc(LPVOID pParam);
+	SOCKET m_sock = INVALID_SOCKET;
+//	afx_msg void OnDestroyClipboard();
+	afx_msg void OnDestroy();
 };
