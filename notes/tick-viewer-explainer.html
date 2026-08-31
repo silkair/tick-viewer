@@ -1,0 +1,882 @@
+<title>체결 뷰어 해설서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root {
+  --ground: #F6F8FB;
+  --surface: #FFFFFF;
+  --surface-sunk: #EDF1F7;
+  --ink: #131820;
+  --ink-soft: #5B6675;
+  --ink-faint: #8A94A3;
+  --rule: #DCE2EA;
+  --rule-soft: #E9EDF3;
+  --accent: #C33B30;
+  --accent-quiet: #F5E4E2;
+  --blue: #2F5FA8;
+  --blue-quiet: #E8EFF9;
+  --blue-rule: #B9CDEA;
+  --shadow: 0 1px 2px rgba(19, 24, 32, .05), 0 8px 24px -16px rgba(19, 24, 32, .22);
+
+  --serif: "Noto Serif KR", "Nanum Myeongjo", Georgia, serif;
+  --sans: "IBM Plex Sans KR", "Malgun Gothic", -apple-system, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", "D2Coding", Consolas, monospace;
+
+  --measure: 34rem;
+  --wide: 52rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0E1218;
+    --surface: #151B23;
+    --surface-sunk: #1B222C;
+    --ink: #E5EAF1;
+    --ink-soft: #9AA5B4;
+    --ink-faint: #6E7988;
+    --rule: #242C37;
+    --rule-soft: #1E252F;
+    --accent: #E4695D;
+    --accent-quiet: #2C1D1C;
+    --blue: #86AEEC;
+    --blue-quiet: #17202D;
+    --blue-rule: #2C3F5C;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .8);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #0E1218;
+  --surface: #151B23;
+  --surface-sunk: #1B222C;
+  --ink: #E5EAF1;
+  --ink-soft: #9AA5B4;
+  --ink-faint: #6E7988;
+  --rule: #242C37;
+  --rule-soft: #1E252F;
+  --accent: #E4695D;
+  --accent-quiet: #2C1D1C;
+  --blue: #86AEEC;
+  --blue-quiet: #17202D;
+  --blue-rule: #2C3F5C;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .8);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16.5px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+}
+
+.page {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 1.5rem 7rem;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  padding: 4.5rem 0 2.5rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.masthead .kicker {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .18em;
+  color: var(--accent);
+  margin: 0 0 1.4rem;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 6vw, 3.1rem);
+  line-height: 1.24;
+  letter-spacing: -.015em;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+
+.standfirst {
+  max-width: var(--measure);
+  font-size: 1.06rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.6rem;
+  margin-top: 2rem;
+  font-family: var(--mono);
+  font-size: .76rem;
+  color: var(--ink-faint);
+}
+
+/* ---------- sections ---------- */
+
+section { padding-top: 3.6rem; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .16em;
+  color: var(--accent);
+  margin: 0 0 .55rem;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 3.4vw, 1.85rem);
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  margin: 0 0 1.5rem;
+  text-wrap: balance;
+}
+
+h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  margin: 2.3rem 0 .7rem;
+  text-wrap: balance;
+}
+
+p { max-width: var(--measure); margin: 0 0 1.15rem; }
+
+section > ul, section > ol { max-width: var(--measure); }
+
+ul, ol { padding-left: 1.15rem; margin: 0 0 1.2rem; }
+li { margin-bottom: .5rem; }
+li::marker { color: var(--ink-faint); }
+
+strong { font-weight: 600; }
+
+code {
+  font-family: var(--mono);
+  font-size: .875em;
+  background: var(--surface-sunk);
+  border: 1px solid var(--rule-soft);
+  border-radius: 3px;
+  padding: .1em .35em;
+  word-break: break-all;
+}
+
+/* ---------- plain-language block ---------- */
+
+.plain {
+  max-width: var(--measure);
+  background: var(--blue-quiet);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+  padding: 1.05rem 1.25rem .85rem;
+  margin: 0 0 1.6rem;
+}
+
+.plain .label {
+  display: block;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: var(--blue);
+  margin-bottom: .45rem;
+}
+
+.plain p { margin: 0 0 .6rem; }
+.plain p:last-child { margin-bottom: 0; }
+
+/* ---------- pitch card ---------- */
+
+.pitch {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 1.6rem 1.75rem;
+  margin-bottom: 1.6rem;
+}
+
+.pitch .label {
+  display: block;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: var(--ink-faint);
+  margin-bottom: .85rem;
+}
+
+.pitch .quote {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  margin: 0;
+  max-width: none;
+}
+
+/* ---------- pipeline diagram ---------- */
+
+.pipeline {
+  display: grid;
+  gap: .55rem;
+  margin: 0 0 1.6rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .pipeline { grid-template-columns: repeat(4, 1fr); gap: .7rem; }
+}
+
+.node {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  padding: .95rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.node.mine {
+  border-color: var(--accent);
+  background: var(--accent-quiet);
+}
+
+.node .who {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  color: var(--ink-faint);
+}
+
+.node.mine .who { color: var(--accent); }
+
+.node .what {
+  font-weight: 600;
+  font-size: .95rem;
+  line-height: 1.45;
+}
+
+.node .note {
+  font-size: .82rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  font-size: .82rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.4rem;
+}
+
+.legend span { display: inline-flex; align-items: center; gap: .45rem; }
+
+.swatch {
+  width: .8rem; height: .8rem;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  flex: none;
+}
+
+.swatch.mine { background: var(--accent-quiet); border-color: var(--accent); }
+
+/* ---------- tables ---------- */
+
+.scroll { overflow-x: auto; margin: 0 0 1.6rem; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 30rem;
+  font-size: .93rem;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: .72rem .9rem;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+thead th {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: .5rem;
+  white-space: nowrap;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+td:first-child { font-weight: 500; }
+
+/* ---------- glossary ---------- */
+
+.glossary {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  margin-bottom: 1.6rem;
+}
+
+.term {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 1.15rem 0;
+  display: grid;
+  gap: .35rem .5rem;
+}
+
+@media (min-width: 720px) {
+  .term { grid-template-columns: 9rem 1fr; gap: .4rem 1.6rem; }
+}
+
+.term dt {
+  font-weight: 600;
+  font-size: .98rem;
+}
+
+.term dt .rom {
+  display: block;
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--ink-faint);
+  margin-top: .1rem;
+}
+
+.term dd { margin: 0; max-width: var(--measure); }
+.term dd p { margin: 0 0 .55rem; }
+.term dd p:last-child { margin-bottom: 0; }
+
+.term .simple {
+  font-size: .9rem;
+  color: var(--ink-soft);
+  padding-left: .8rem;
+  border-left: 2px solid var(--blue-rule);
+}
+
+/* ---------- ordered talk track ---------- */
+
+.track { list-style: none; padding: 0; margin: 0 0 1.6rem; max-width: var(--measure); }
+
+.track > li {
+  display: grid;
+  grid-template-columns: 2.9rem 1fr;
+  gap: .2rem 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+  margin: 0;
+}
+
+.track .clock {
+  font-family: var(--mono);
+  font-size: .74rem;
+  color: var(--accent);
+  padding-top: .28rem;
+  white-space: nowrap;
+}
+
+.track .head { font-weight: 600; }
+.track .body { grid-column: 2; color: var(--ink-soft); font-size: .93rem; }
+
+/* ---------- caution ---------- */
+
+.caution {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--accent);
+  border-radius: 0 0 7px 7px;
+  padding: 1.4rem 1.5rem .6rem;
+}
+
+.caution h3 { margin-top: 0; }
+.caution ul { max-width: var(--measure); }
+
+/* ---------- footer ---------- */
+
+footer {
+  margin-top: 4.5rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+  font-size: .85rem;
+  color: var(--ink-faint);
+  max-width: var(--measure);
+}
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 3.4rem 0 0;
+}
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="kicker">HTS-TICK-VIEWER / 프로그램 해설</p>
+    <h1>내가 만든 건<br>시세가 화면에 닿는 마지막 구간이다</h1>
+    <p class="standfirst">
+      코드가 아니라 <strong>물건</strong>에 대한 설명서다. 이 프로그램이 무엇이고,
+      증권사 시스템의 어느 자리에 해당하며, 여기서 배운 것 중 실무로 그대로 가져갈 수 있는 것이
+      무엇인지 정리했다. 면접에서 “만드셨다는 프로그램, 자세히 설명해 주세요”를 받았을 때
+      막힘없이 답하기 위한 문서다.
+    </p>
+    <div class="meta">
+      <span>C++ · MFC · Winsock · Python</span>
+      <span>Windows 데스크톱</span>
+      <span>진행 단계 0–3 완료</span>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">30초 답변</p>
+    <h2>한 문장으로 무엇인가</h2>
+
+    <div class="pitch">
+      <span class="label">그대로 말해도 되는 답변</span>
+      <p class="quote">
+        “TCP 소켓으로 주식 체결 데이터를 실시간으로 받아서, 창의 목록에 한 줄씩 쌓아 보여주는
+        Windows 데스크톱 프로그램입니다. 증권사 HTS의 <strong>‘시간대별 체결’</strong> 화면을
+        아주 작게 흉내 낸 것이고요. 클라이언트는 C++과 MFC로 만들었고, 데이터를 흘려보내는
+        더미 서버는 Python으로 같이 만들었습니다. 제 실무 경력이 Java/Spring이라,
+        C++과 Win32 소켓, 그리고 데스크톱 GUI의 스레드 모델을 직접 겪어보려고 만든 프로젝트입니다.”
+      </p>
+    </div>
+
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        주식 시장에서는 거래가 성사될 때마다 “몇 시 몇 분 몇 초에, 무엇이, 얼마에, 몇 개 팔렸다”가
+        기록된다. 그 기록이 1초에도 여러 건씩 쏟아진다.
+      </p>
+      <p>
+        내가 만든 건 <strong>그 기록을 실시간으로 받아서 화면에 한 줄씩 쌓아 보여주는 프로그램</strong>이다.
+        은행 창구 위에 걸린 대기번호 전광판처럼, 새 소식이 오면 맨 위에 한 줄 붙는다.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">먼저 알아야 할 말</p>
+    <h2>용어 다섯 개</h2>
+    <p>
+      이 단어들을 정확히 쓰지 못하면 나머지 설명이 다 흔들린다. 특히 <strong>체결</strong>과
+      <strong>호가</strong>는 섞어 쓰기 쉬운데, 내 프로그램은 <strong>체결만</strong> 다룬다.
+    </p>
+
+    <dl class="glossary">
+
+      <div class="term">
+        <dt>체결 <span class="rom">execution / fill</span></dt>
+        <dd>
+          <p>
+            사려는 사람과 팔려는 사람의 가격이 맞아 <strong>실제로 거래가 성사된 것</strong>.
+            한 건마다 시각·종목·가격·수량이 남는다. 내 프로그램이 받아서 뿌리는 데이터가 이것이다.
+          </p>
+          <p class="simple">
+            중고 거래에서 “살게요”와 “팔게요”가 만나 돈과 물건이 실제로 오간 순간.
+            그 순간마다 영수증이 한 장 나온다고 보면 된다.
+          </p>
+        </dd>
+      </div>
+
+      <div class="term">
+        <dt>호가 <span class="rom">quote / order book</span></dt>
+        <dd>
+          <p>
+            아직 거래되지 <em>않은</em>, “이 가격이면 사겠다 / 팔겠다”는 <strong>대기 중인 주문</strong>.
+            HTS의 호가창이 이걸 보여준다. <strong>내 프로그램은 호가를 다루지 않는다.</strong>
+          </p>
+          <p class="simple">
+            아직 안 팔린 물건에 붙어 있는 가격표, 그리고 “그 값이면 살게요” 하고 줄 서 있는 사람들.
+            아직 아무것도 안 팔렸다.
+          </p>
+        </dd>
+      </div>
+
+      <div class="term">
+        <dt>틱 <span class="rom">tick</span></dt>
+        <dd>
+          <p>
+            <strong>뜻이 두 가지</strong>라 주의해야 한다. ① 체결 한 건(= 틱 데이터)
+            ② 가격이 움직일 수 있는 최소 단위(= 호가 단위). 내 프로젝트에는
+            <strong>둘 다</strong> 나온다 — 받는 데이터가 ①이고, 서버가 가격을 만들 때 쓴
+            <code>0.05</code> 단위가 ②다.
+          </p>
+          <p class="simple">
+            ①은 “거래 한 건”, ②는 “가격이 뛰는 계단 한 칸의 높이”. 같은 단어인데 뜻이 다르다.
+          </p>
+        </dd>
+      </div>
+
+      <div class="term">
+        <dt>시세 <span class="rom">market data</span></dt>
+        <dd>
+          <p>
+            현재 시장 가격에 관한 정보 전반. 체결, 호가, 지수, 거래량 등을 통칭한다.
+            증권사에서 “시세 시스템”이라고 하면 이걸 받아서 가공하고 고객에게 뿌리는 계통 전체를 가리킨다.
+          </p>
+          <p class="simple">
+            시장에서 지금 무슨 일이 벌어지고 있는지 알려주는 소식 전부. 내 프로그램은 그중
+            “거래 성사 소식”만 받는다.
+          </p>
+        </dd>
+      </div>
+
+      <div class="term">
+        <dt>HTS / MTS <span class="rom">trading system</span></dt>
+        <dd>
+          <p>
+            HTS는 PC용 주식거래 프로그램, MTS는 그 모바일 버전. 시세 조회, 차트, 주문, 잔고 확인이
+            한 프로그램에 들어 있다. <strong>‘시간대별 체결’은 그 안의 화면 하나</strong>이고,
+            내가 만든 건 그 화면 하나의 축소판이다.
+          </p>
+          <p class="simple">
+            증권사가 주는 “주식 앱”. 그 안에 화면이 수십 개 있는데, 나는 그중 한 장을 따라 만들었다.
+          </p>
+        </dd>
+      </div>
+
+    </dl>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">위치</p>
+    <h2>증권사 시스템의 어느 자리인가</h2>
+
+    <p>
+      시세는 거래소에서 출발해 여러 손을 거쳐 고객 화면에 도달한다. 그 경로를 네 칸으로 줄이면
+      이렇게 되고, <strong>내가 만든 것은 뒤쪽 두 칸</strong>이다.
+    </p>
+
+    <div class="legend">
+      <span><i class="swatch mine"></i> 내가 만든 부분</span>
+      <span><i class="swatch"></i> 실무에 존재하지만 만들지 않은 부분</span>
+    </div>
+
+    <div class="pipeline">
+      <div class="node">
+        <span class="who">1 · 거래소</span>
+        <span class="what">KRX가 체결·호가를 배포</span>
+        <span class="note">원본이 만들어지는 곳. 데이터 양이 많아 전용 회선과 UDP 계열 배포를 쓰는 구간이 있다.</span>
+      </div>
+      <div class="node mine">
+        <span class="who">2 · 시세 배포 서버</span>
+        <span class="what">dummy_server.py</span>
+        <span class="note">증권사가 거래소 피드를 받아 가공해 고객에게 재배포하는 자리. 내 더미 서버가 이 역할을 아주 단순하게 흉내 낸다.</span>
+      </div>
+      <div class="node mine">
+        <span class="who">3 · 수신·화면</span>
+        <span class="what">hts-viewer (MFC)</span>
+        <span class="note">고객 단말이 시세를 받아 화면에 뿌리는 자리. 소켓 수신, 메시지 조립, 목록 표시가 전부 여기에 있다.</span>
+      </div>
+      <div class="node">
+        <span class="who">4 · 주문·원장</span>
+        <span class="what">OMS · 계좌 · 체결 처리</span>
+        <span class="note">실제 HTS의 나머지 절반. 주문을 내고 잔고를 관리하는 계통이며, 내 프로그램에는 전혀 없다.</span>
+      </div>
+    </div>
+
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        시세는 <strong>방송</strong>에 가깝다. 거래소가 방송국이고, 증권사가 그걸 받아 중계하는 지역 방송국이고,
+        HTS는 시청자의 TV다.
+      </p>
+      <p>
+        나는 <strong>중계소 하나와 TV 한 대</strong>를 직접 만든 셈이다. 방송국(거래소)은 못 만들었고,
+        시청자가 방송국에 전화를 거는 쪽(주문)도 안 만들었다.
+      </p>
+    </div>
+
+    <p>
+      이 구분이 면접에서 중요하다. “시세 계통을 다뤄봤다”와 “주문 계통을 다뤄봤다”는 전혀 다른 얘기이고,
+      <strong>나는 시세 수신 쪽만 만들었다.</strong> 먼저 그렇게 선을 그어두면 이후 질문이 정확해진다.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">대응 관계</p>
+    <h2>내가 만든 부품 ↔ 실무의 무엇</h2>
+
+    <p>
+      각 부품이 실무의 어느 물건에 해당하는지 알아두면, “실제로는 이렇게 한다더라”는 질문에
+      막히지 않는다.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>내가 만든 것</th><th>실무에서 대응하는 것</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>dummy_server.py</td>
+            <td>증권사의 시세 배포 서버. 실제로는 거래소 피드를 받아 가공하고 수많은 고객 단말에 뿌린다.</td>
+          </tr>
+          <tr>
+            <td>길이 프리픽스 프로토콜</td>
+            <td>거래소·증권사가 쓰는 전문 규격. 국내 거래소 전문에는 고정 길이 레코드가 흔하고, 주문 계통 표준인 FIX에도 본문 길이를 앞에 두는 필드가 있다.</td>
+          </tr>
+          <tr>
+            <td><code>--burst</code> / <code>--split</code> 모드</td>
+            <td>부하·장애 재현용 테스트 환경. 실서비스에서만 재현되는 문제를 개발 단계로 끌어오는 장치다.</td>
+          </tr>
+          <tr>
+            <td>콘솔 TCP 클라이언트</td>
+            <td>시세 수신 모듈의 최소 형태. 실무에서도 화면 없는 수신·중계 데몬을 따로 두는 경우가 많다.</td>
+          </tr>
+          <tr>
+            <td>워커 스레드 + PostMessage</td>
+            <td>HTS의 실시간 수신 스레드가 UI 스레드에 갱신을 넘기는 구조. GUI 프로그램이면 플랫폼을 가리지 않고 같은 모양이다.</td>
+          </tr>
+          <tr>
+            <td>CListCtrl 목록</td>
+            <td>HTS 화면의 그리드. 실제 제품은 수만 행을 다루기 위해 가상 리스트(필요한 행만 그리는 방식)를 쓴다.</td>
+          </tr>
+          <tr>
+            <td><code>MAX_ROWS = 500</code></td>
+            <td>화면 버퍼 상한. 실제 HTS도 최근 N건만 유지하고 오래된 것은 버린다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        장난감 기차 세트로 진짜 철도의 원리를 배운 것과 같다. 크기와 재료는 다르지만
+        <strong>레일이 어떻게 이어지고 신호가 어떻게 오가는지</strong>는 같다.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">전이 가능한 것</p>
+    <h2>여기서 배운 것 중 실무에 그대로 쓰이는 것</h2>
+
+    <p>
+      이 프로젝트의 가치는 결과물이 아니라 <strong>여기서만 배울 수 있는 것을 배웠다</strong>는 데 있다.
+      아래 여섯 가지는 증권 도메인이 아니어도, C++이 아니어도 쓰인다.
+    </p>
+
+    <h3>1. 메시지 경계를 직접 잡는 법</h3>
+    <p>
+      TCP는 바이트가 흐르는 파이프일 뿐 “메시지”라는 개념이 없다. 보낸 횟수와 받는 횟수가 다르다.
+      길이를 앞에 붙이고, 받는 쪽이 버퍼에 쌓았다가 완성된 것만 꺼내는 방식은
+      <strong>소켓을 직접 다루는 모든 곳</strong>에서 똑같이 쓰인다.
+    </p>
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        편지를 봉투 없이 종이만 우편함에 계속 넣으면, 받는 사람은 어디까지가 한 통인지 알 수 없다.
+        그래서 <strong>“이 편지는 25장입니다”라고 앞에 적어두는 것</strong>이 길이 프리픽스다.
+      </p>
+    </div>
+
+    <h3>2. 오래 걸리는 일을 화면과 분리하는 법</h3>
+    <p>
+      데이터를 기다리는 코드를 화면 담당 스레드에서 부르면 창이 멈춘다. 실제로 창이 10초 동안
+      뜨지 않는 것을 눈으로 확인했다. 파일 읽기, 네트워크 호출, 무거운 계산 —
+      <strong>기다리는 일은 전부 다른 스레드로</strong>가 GUI의 기본 규칙이다.
+    </p>
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        카페에 직원이 한 명뿐인데 그 사람이 원두 배달을 기다리며 문 앞에 서 있으면,
+        주문도 못 받고 계산도 못 한다. <strong>배달은 다른 사람에게 맡겨야</strong> 가게가 돌아간다.
+      </p>
+    </div>
+
+    <h3>3. 스레드 사이에 데이터를 안전하게 넘기는 법</h3>
+    <p>
+      받은 데이터를 화면 스레드에 넘길 때, <strong>가리키는 주소가 아니라 복사본의 소유권</strong>을
+      넘겨야 한다. 넘기는 쪽 버퍼는 곧 다음 데이터로 덮이기 때문이다. 이 판단은 언어와 무관하게
+      동시성 코드에서 반복된다.
+    </p>
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        “저 칠판에 적어놨으니 이따 보세요”라고 하면, 그 사람이 볼 때쯤 칠판은 이미 지워지고
+        다른 내용이 적혀 있다. <strong>종이에 적어서 손에 쥐여줘야</strong> 한다.
+      </p>
+    </div>
+
+    <h3>4. 처리 속도가 유입 속도를 못 따라가면 무슨 일이 생기는지</h3>
+    <p>
+      한 번에 3건이 들어오는데 1건만 꺼내도록 만들었더니, 버퍼가 계속 불어나고
+      <strong>화면에 뜨는 시각이 실제 시간보다 점점 뒤처졌다.</strong> 그리고 결국 버퍼가 찬다.
+      실시간 시스템에서 밀림(지연)이 어떻게 시작되고 무엇으로 드러나는지를 직접 봤다.
+    </p>
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        설거지가 세 개씩 나오는데 하나씩만 씻으면 싱크대에 그릇이 쌓인다. 처음엔 티가 안 나다가
+        <strong>어느 순간 싱크대가 넘친다.</strong>
+      </p>
+    </div>
+
+    <h3>5. 장애 상황을 구분해서 처리하는 법</h3>
+    <p>
+      “상대가 정상적으로 끊었다”와 “사고가 났다”는 다르게 처리해야 한다. 에러 번호를 로그에
+      남겨두지 않았다면 원인을 영영 못 찾았을 상황을 여러 번 겪었다.
+      <strong>실패 경로마다 왜 실패했는지 남기는 것</strong>이 습관이 됐다.
+    </p>
+
+    <h3>6. 플랫폼 차이는 문서가 아니라 실행이 알려준다</h3>
+    <p>
+      Windows와 Linux는 소켓 옵션의 의미가 다르고, 같은 상황에서 다른 예외가 난다. 리눅스를
+      전제로 쓰인 코드가 Windows에서 조용히 오작동하는 것을 실측으로 확인했다.
+      <strong>“돌려보기 전에는 모른다”</strong>가 결론이다.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">한계</p>
+    <h2>안 만든 것 — 먼저 말하는 편이 낫다</h2>
+
+    <p>
+      면접관은 반드시 여기를 찌른다. <strong>먼저 꺼내면 정직해 보이고, 찔린 뒤에 인정하면 방어처럼 보인다.</strong>
+      “학습이 목적이라 의도적으로 뺐다”와 “거기까지 못 갔다”를 구분해서 말하면 된다.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>없는 기능</th><th>어떻게 말할 것인가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>재접속 / 재시도</td><td>끊기면 프로그램을 다시 켜야 한다. 실서비스라면 가장 먼저 붙일 기능.</td></tr>
+          <tr><td>로그인 · 인증 · 암호화</td><td>평문 TCP다. 학습 목적이라 뺐고, 실제로는 인증과 TLS가 필수다.</td></tr>
+          <tr><td>호가창 · 차트 · 주문</td><td>HTS의 나머지 화면들. 이번 목표는 체결 한 화면이었다.</td></tr>
+          <tr><td>종목 선택 · 구독</td><td>종목 하나가 고정이다. 실제로는 “이 종목을 구독하겠다”는 요청 규약이 필요하다.</td></tr>
+          <tr><td>정렬 · 필터 · 저장</td><td>화면에 쌓기만 한다.</td></tr>
+          <tr><td>실제 거래소 프로토콜</td><td>규격은 내가 정한 것이다. 실제 전문 규격을 구현한 것이 아니다.</td></tr>
+          <tr><td>성능 측정</td><td>처리량과 지연 시간을 재보지 않았다. 초당 몇 건까지 견디는지 모른다.</td></tr>
+          <tr><td>가상 리스트</td><td>500건 제한으로 피해 갔다. 수만 행을 다루려면 다른 방식이 필요하다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="plain">
+      <span class="label">쉽게 말하면</span>
+      <p>
+        자동차로 치면 <strong>엔진과 계기판까지</strong> 만들어 본 것이다. 문, 에어컨, 안전벨트,
+        번호판은 없다. 그런데 “엔진이 왜 이렇게 도는지”는 설명할 수 있다.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">답변 순서</p>
+    <h2>“자세히 설명해 주세요”를 받았을 때</h2>
+
+    <p>
+      한 번에 다 쏟지 말고 <strong>층을 나눠서</strong> 말한다. 상대가 어디에 관심을 보이는지 보고
+      그쪽으로 더 들어가면 된다.
+    </p>
+
+    <ol class="track">
+      <li>
+        <span class="clock">0:30</span>
+        <span class="head">무엇을 만들었나</span>
+        <span class="body">이 문서 맨 위의 30초 답변. 여기서 멈추고 반응을 본다.</span>
+      </li>
+      <li>
+        <span class="clock">1:00</span>
+        <span class="head">왜 만들었나</span>
+        <span class="body">Java/Spring 경력이고 C++은 처음이라, 메모리와 소켓과 GUI 스레드를 손으로 익히려고 만들었다고 말한다. 학습용임을 숨기지 않는 편이 낫다.</span>
+      </li>
+      <li>
+        <span class="clock">2:00</span>
+        <span class="head">어떻게 동작하나</span>
+        <span class="body">데이터가 흐르는 순서대로 말한다. 서버가 체결을 만들어 길이를 붙여 보내고 → 워커 스레드가 받아 경계를 잘라내고 → 화면 스레드에 넘겨 목록에 쌓는다.</span>
+      </li>
+      <li>
+        <span class="clock">깊이</span>
+        <span class="head">겪은 문제 하나를 고른다</span>
+        <span class="body">전부 나열하지 말고 하나만 깊게. 추천은 <strong>“recv 한 번이 메시지 한 건이 아니다”</strong> — 실제 출력으로 보여줄 수 있고, 모르면 반드시 당하는 문제라서 공감이 크다.</span>
+      </li>
+      <li>
+        <span class="clock">마무리</span>
+        <span class="head">한계와 다음 계획</span>
+        <span class="body">위 “안 만든 것”에서 두세 개를 먼저 꺼내고, 다음에 붙일 것(재접속, 성능 측정)을 말한다.</span>
+      </li>
+    </ol>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <p class="eyebrow">주의</p>
+    <h2>말하기 전에 확인할 것</h2>
+
+    <div class="caution">
+      <h3>단정하면 위험한 것들</h3>
+      <p>
+        아래는 이 프로젝트를 만들며 가정했을 뿐, 사실 확인을 거치지 않은 부분이다.
+        <strong>면접에서 단정적으로 말하지 말 것.</strong> 하나라도 틀리면 나머지 설명의 신뢰가 함께 떨어진다.
+      </p>
+      <ul>
+        <li>
+          <strong>종목코드 <code>A0169000</code></strong> — 실제 코스피200 선물의 표준 종목코드 체계와
+          일치하는지 확인되지 않았다. “선물 종목코드를 흉내 낸 예시 값”이라고 말하는 편이 안전하다.
+        </li>
+        <li>
+          <strong>호가 단위 <code>0.05</code></strong> — 코스피200 선물 기준으로 잡은 값이다.
+          계약 승수 등 다른 수치를 함께 말할 생각이라면 미리 확인해 둘 것.
+        </li>
+        <li>
+          <strong>“국내 HTS는 C++/MFC로 만든다”</strong> — 레거시 데스크톱 HTS에 그런 사례가 있다는
+          정도로만 말하고, 특정 회사의 기술 스택을 단정하지 말 것.
+        </li>
+        <li>
+          <strong>거래소 전송 방식</strong> — 대량 시세 배포에 UDP 계열을 쓰는 구간이 있다고
+          알려져 있으나, 구체적인 규격은 확인한 범위 안에서만 말할 것.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      이 문서는 프로그램이 <em>무엇인지</em>를 설명한다. <em>어떻게 만들었는지</em>와
+      직접 겪은 문제 목록은 저장소의 <code>notes/project-brief.md</code> 에 따로 있다.
+    </p>
+  </footer>
+
+</div>
